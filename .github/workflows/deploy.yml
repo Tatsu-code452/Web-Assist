@@ -1,4 +1,5 @@
-# deploy.yml
+# .github/workflows/deploy.yml
+# 変更理由: actions/configure-pages の設定エラー回避およびサブディレクトリ構造への最適化 [tag: fix-configure-pages-error]
 name: Deploy to GitHub Pages
 
 on:
@@ -41,8 +42,6 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        with:
-          static_site_generator: vite
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
