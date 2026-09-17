@@ -1,27 +1,19 @@
 import { useState } from "react";
 import { cn } from "../../../../lib/utils";
+import { PageBuilderState } from "../hooks/usePageBuilderState";
 import { BuilderNode } from "../types";
 
 interface TreeViewProps {
+    states: PageBuilderState;
     node: BuilderNode;
-    selectedId: string;
-    onSelect: (id: string) => void;
-    draggedId: string | null;
-    setDraggedId: (id: string | null) => void;
     onDrop: (
         targetId: string,
         dropPosition: "inside" | "before" | "after",
     ) => void;
 }
 
-export const TreeView = ({
-    node,
-    selectedId,
-    onSelect,
-    draggedId,
-    setDraggedId,
-    onDrop,
-}: TreeViewProps) => {
+export const TreeView = ({ states, node, onDrop }: TreeViewProps) => {
+    const { selectedId, setSelectedId, setDraggedId } = states;
     const [collapsed, setCollapsed] = useState(false);
 
     const handleDragOver = (e: React.DragEvent) => {
@@ -63,7 +55,7 @@ export const TreeView = ({
                         onDragOver={handleDragOver}
                         onClick={(e) => {
                             e.stopPropagation();
-                            onSelect(node.id);
+                            setSelectedId(node.id);
                         }}
                         className={cn(
                             "group relative flex items-center justify-between rounded-md px-2 py-1.5 transition-colors cursor-pointer",
@@ -135,11 +127,8 @@ export const TreeView = ({
                             {node.children.map((child) => (
                                 <TreeView
                                     key={child.id}
+                                    states={states}
                                     node={child}
-                                    selectedId={selectedId}
-                                    onSelect={onSelect}
-                                    draggedId={draggedId}
-                                    setDraggedId={setDraggedId}
                                     onDrop={onDrop}
                                 />
                             ))}

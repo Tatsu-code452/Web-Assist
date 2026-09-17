@@ -13,18 +13,16 @@ import { PreviewRender } from "./render/PreviewRender";
 
 export const PageBuilder = () => {
     const states = usePageBuilderState();
-    const { tree, selectedId, setSelectedId, draggedId, setDraggedId } = states;
+    const { tree, setSelectedId } = states;
 
     const tool = useTool(states);
-    const { saveHistory } = tool;
-
-    const node = useNode(states, saveHistory);
+    const node = useNode(states, tool.saveHistory);
     const { dropNode } = node;
 
     const pageBuilderController = usePageBuilder(states, tool, node);
     const { viewportClasses } = pageBuilderController;
 
-    const { renderPreview } = PreviewRender(states, pageBuilderController);
+    const { renderPreview } = PreviewRender(states);
 
     return (
         <Section
@@ -39,11 +37,8 @@ export const PageBuilder = () => {
                 <div className="flex flex-col gap-4 max-h-[680px] overflow-hidden">
                     <ToolBox node={node} />
                     <TreeView
+                        states={states}
                         node={tree}
-                        selectedId={selectedId}
-                        onSelect={setSelectedId}
-                        draggedId={draggedId}
-                        setDraggedId={setDraggedId}
                         onDrop={dropNode}
                     />
                 </div>
@@ -63,18 +58,11 @@ export const PageBuilder = () => {
                 </div>
 
                 {/* 右カラム: プロパティ設定エリア */}
-                <Property
-                    states={states}
-                    node={node}
-                    pageBuilderController={pageBuilderController}
-                />
+                <Property states={states} node={node} />
             </div>
 
             {/* コード出力 */}
-            <Output
-                states={states}
-                pageBuilderController={pageBuilderController}
-            />
+            <Output states={states} />
         </Section>
     );
 };

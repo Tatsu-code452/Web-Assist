@@ -1,26 +1,21 @@
 import { cn } from "../../../../lib/utils";
 import { Button, Input, Select } from "../../../components";
 import { Node } from "../hooks/useNode";
-import { PageBuilderController } from "../hooks/usePageBuilder";
 import { PageBuilderState } from "../hooks/usePageBuilderState";
+import { useProperty } from "../hooks/useProperty";
 import { PropsInspectorGUIRender } from "../render/PropsInspectorGUIRender";
 import { commonTailwindClasses } from "../types";
 
 interface PropertyProps {
     states: PageBuilderState;
     node: Node;
-    pageBuilderController: PageBuilderController;
 }
 
-export const Property = ({
-    states,
-    node,
-    pageBuilderController,
-}: PropertyProps) => {
+export const Property = ({ states, node }: PropertyProps) => {
     const { customClassInput, setCustomClassInput } = states;
     const { selected, updateNode, toggleUtilityClass, updateLayoutProps } =
         node;
-    const { handleAddCustomClass } = pageBuilderController;
+    const { handleAddCustomClass } = useProperty(states, node);
     const { renderPropsInspectorGUI } = PropsInspectorGUIRender(node);
 
     return (
@@ -30,7 +25,7 @@ export const Property = ({
                     Properties
                 </p>
                 <p className="text-sm font-semibold text-slate-800 dark:text-white">
-                    {selected.name}{" "}
+                    {selected.name}
                     <span className="text-xs font-normal text-slate-400">
                         ({selected.type})
                     </span>

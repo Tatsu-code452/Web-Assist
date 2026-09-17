@@ -8,16 +8,12 @@ import {
     Input,
     Textarea,
 } from "../../../components";
-import { PageBuilderController } from "../hooks/usePageBuilder";
 import { PageBuilderState } from "../hooks/usePageBuilderState";
+import { getLayoutClasses } from "../hooks/utils";
 import { BuilderNode, typePresets } from "../types";
 
-export const PreviewRender = (
-    states: PageBuilderState,
-    pageBuilderController: PageBuilderController,
-) => {
+export const PreviewRender = (states: PageBuilderState) => {
     const { selectedId, setSelectedId } = states;
-    const { getLayoutClasses } = pageBuilderController;
 
     const renderPreview = (node: BuilderNode): ReactNode => {
         const isContainer =

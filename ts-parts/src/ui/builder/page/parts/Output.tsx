@@ -1,16 +1,16 @@
 import { Button } from "../../../components";
 import { CopyButton } from "../../../shared";
-import { PageBuilderController } from "../hooks/usePageBuilder";
+import { useOutput } from "../hooks/useOutput";
 import { PageBuilderState } from "../hooks/usePageBuilderState";
 
 interface OutputProps {
     states: PageBuilderState;
-    pageBuilderController: PageBuilderController;
 }
 
-export const Output = ({ states, pageBuilderController }: OutputProps) => {
-    const { outputMode, setOutputMode } = states;
-    const { generated } = pageBuilderController;
+export const Output = ({ states }: OutputProps) => {
+    const { tree, outputMode, setOutputMode } = states;
+    const { generateCode } = useOutput(states);
+    const generated = generateCode(tree);
 
     return (
         <div className="mt-8">
