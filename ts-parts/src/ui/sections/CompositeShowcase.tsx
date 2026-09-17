@@ -4,12 +4,16 @@ import {
     Avatar,
     Button,
     Card,
+    DropdownMenu,
     Input,
     Modal,
+    Popover,
     Skeleton,
     StatCard,
+    TableDataGrid,
     Tabs,
     Toast,
+    Tooltip,
 } from "../components";
 import { Section } from "../shared";
 
@@ -31,17 +35,23 @@ export const CompositeShowcase = () => {
         setToasts((prev) => prev.filter((t) => t.id !== id));
     };
 
+    const tableData = [
+        { id: 1, name: "Alice Johnson", role: "Developer", status: "Active" },
+        { id: 2, name: "Bob Smith", role: "Designer", status: "Inactive" },
+        { id: 3, name: "Charlie Brown", role: "Manager", status: "Active" },
+    ];
+
     return (
         <Section
             title="Composite examples"
-            description="新規追加コンポーネント（Modal, Toast, Tabs, Accordion, Avatar, Skeleton）の対話型デモ。"
+            description="各種コンポーネント（Modal, Toast, Tooltip, Popover, Dropdown, Table 等）のデモ。"
         >
             <div className="space-y-6">
                 <div>
                     <h3 className="mb-3 text-sm font-bold text-slate-700 dark:text-slate-300">
-                        Interactive Overlay & Notifications
+                        Interactive Overlay & Context Menus
                     </h3>
-                    <div className="flex flex-wrap gap-3">
+                    <div className="flex flex-wrap items-center gap-3">
                         <Button onClick={() => setIsModalOpen(true)}>
                             モーダルを開く
                         </Button>
@@ -51,13 +61,63 @@ export const CompositeShowcase = () => {
                         >
                             トースト追加 (Success)
                         </Button>
-                        <Button
-                            variant="danger"
-                            onClick={() => addToast("danger")}
+
+                        <Tooltip content="補足情報を表示します" position="top">
+                            <Button variant="ghost">Hover me (Tooltip)</Button>
+                        </Tooltip>
+
+                        <Popover
+                            trigger={
+                                <Button variant="secondary">Popover</Button>
+                            }
                         >
-                            トースト追加 (Danger)
-                        </Button>
+                            <p className="text-sm font-bold text-slate-900 dark:text-white">
+                                Popover Header
+                            </p>
+                            <p className="mt-1 text-xs text-slate-500">
+                                任意のレイアウト・要素を入れることが可能です。
+                            </p>
+                        </Popover>
+
+                        <DropdownMenu
+                            trigger={
+                                <Button variant="primary">Actions ▾</Button>
+                            }
+                            items={[
+                                {
+                                    id: "edit",
+                                    label: "編集",
+                                    onClick: () => alert("Edit"),
+                                },
+                                {
+                                    id: "duplicate",
+                                    label: "複製",
+                                    onClick: () => alert("Duplicate"),
+                                },
+                                {
+                                    id: "delete",
+                                    label: "削除",
+                                    danger: true,
+                                    onClick: () => alert("Delete"),
+                                },
+                            ]}
+                        />
                     </div>
+                </div>
+
+                <div>
+                    <h3 className="mb-3 text-sm font-bold text-slate-700 dark:text-slate-300">
+                        Table / DataGrid
+                    </h3>
+                    <TableDataGrid
+                        data={tableData}
+                        columns={[
+                            { key: "id", header: "ID", sortable: true },
+                            { key: "name", header: "Name", sortable: true },
+                            { key: "role", header: "Role", sortable: true },
+                            { key: "status", header: "Status" },
+                        ]}
+                    />
                 </div>
 
                 <Modal

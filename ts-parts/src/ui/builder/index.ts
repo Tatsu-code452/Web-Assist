@@ -1,3 +1,3 @@
 export { LayoutBuilder } from "./LayoutBuilder";
-export { PageBuilder } from "./PageBuilder";
+export { PageBuilder } from "./page/PageBuilder";
 
