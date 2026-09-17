@@ -1,3 +1,4 @@
+# deploy.yml
 name: Deploy to GitHub Pages
 
 on:
@@ -27,9 +28,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: 'npm'
+          cache-dependency-path: 'ts-parts/package-lock.json'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
         working-directory: ./ts-parts
 
       - name: Build
@@ -38,6 +41,8 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          static_site_generator: vite
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
