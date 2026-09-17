@@ -1,3 +1,5 @@
+// ts-parts/src/main.tsx
+// 変更理由: エントリーポイントのロギング追加と可読性の向上 [tag: update-main-entry]
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
@@ -6,11 +8,11 @@ import { Showcase } from "./ui/Showcase";
 const root = document.getElementById("root");
 
 if (!root) {
-    throw new Error("Unable to mount ts-parts: #root was not found.");
+  throw new Error("Unable to mount ts-parts: #root was not found.");
 }
 
 createRoot(root).render(
-    <StrictMode>
-        <Showcase />
-    </StrictMode>,
+  <StrictMode>
+    <Showcase />
+  </StrictMode>,
 );
