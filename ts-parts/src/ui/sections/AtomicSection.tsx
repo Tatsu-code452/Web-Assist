@@ -6,7 +6,7 @@ import {
     Field,
     Input,
     Select,
-    Textarea
+    Textarea,
 } from "../components";
 import { Section } from "../shared";
 
@@ -14,11 +14,13 @@ export const AtomicSection = () => (
     <>
         <Section
             title="Button"
-            description="Primary, secondary, danger and ghost actions."
-            code={'<Button variant="primary">Save</Button>'}
+            description="cva によるバリアントとサイズ管理に対応した Button。"
+            code={'<Button variant="primary" size="md">Save</Button>'}
         >
-            <div className="flex flex-wrap gap-3">
-                <Button>Save</Button>
+            <div className="flex flex-wrap items-center gap-3">
+                <Button size="sm">Small</Button>
+                <Button size="md">Medium</Button>
+                <Button size="lg">Large</Button>
                 <Button variant="secondary">Cancel</Button>
                 <Button variant="danger">Delete</Button>
                 <Button variant="ghost">Details</Button>
@@ -55,14 +57,23 @@ export const AtomicSection = () => (
             title="Status components"
             description="Badges and alerts communicate state."
         >
-            <div className="flex flex-wrap gap-2">
-                <Badge>Neutral</Badge>
-                <Badge tone="success">Success</Badge>
-                <Badge tone="warning">Warning</Badge>
+            <div className="flex flex-wrap items-center gap-2">
+                <Badge size="sm">Neutral SM</Badge>
+                <Badge tone="success" size="md">
+                    Success MD
+                </Badge>
+                <Badge tone="warning" size="lg">
+                    Warning LG
+                </Badge>
                 <Badge tone="danger">Danger</Badge>
             </div>
-            <div className="mt-4">
-                <Alert title="Heads up">This is an informational alert.</Alert>
+            <div className="mt-4 space-y-3">
+                <Alert tone="info" size="sm" title="Small Alert">
+                    This is a small info alert.
+                </Alert>
+                <Alert tone="success" title="Heads up">
+                    This is a success alert.
+                </Alert>
             </div>
         </Section>
     </>

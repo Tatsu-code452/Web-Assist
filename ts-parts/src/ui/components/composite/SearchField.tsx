@@ -16,7 +16,19 @@ export const SearchField = ({
             className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-slate-400"
             aria-hidden="true"
         >
-            ⌕
+            <svg
+                className="size-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+            >
+                <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+            </svg>
         </span>
         <Input
             value={value}
@@ -30,12 +42,24 @@ export const SearchField = ({
                 type="button"
                 onClick={() => onChange("")}
                 className={cn(
-                    "absolute inset-y-0 right-3 text-slate-400 hover:text-slate-700",
+                    "absolute inset-y-0 right-3 flex items-center text-slate-400 hover:text-slate-700",
                     ui.focus,
                 )}
                 aria-label="検索条件をクリア"
             >
-                ×
+                <svg
+                    className="size-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                    />
+                </svg>
             </button>
         )}
     </div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { cn } from "../../lib/utils";
 import { Card, Input, Label } from "../components";
 import { ColorPair, CopyButton } from "../shared";
+
 export const PaletteStudio = () => {
     const [palette, setPalette] = useState([
         { name: "Primary", value: "#4f46e5" },
@@ -13,6 +14,7 @@ export const PaletteStudio = () => {
     ]);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const selected = palette[selectedIndex];
+
     const updateColor = (value: string) => {
         setPalette((current) =>
             current.map((color, index) =>
@@ -20,6 +22,7 @@ export const PaletteStudio = () => {
             ),
         );
     };
+
     const cssVariables = palette
         .map(({ name, value }) => `--color-${name.toLowerCase()}: ${value};`)
         .join("\n");
@@ -36,6 +39,7 @@ export const PaletteStudio = () => {
                             type="button"
                             key={color.name}
                             onClick={() => setSelectedIndex(index)}
+                            aria-pressed={selectedIndex === index}
                             className={cn(
                                 "rounded-2xl border bg-white p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md",
                                 selectedIndex === index
@@ -68,9 +72,11 @@ export const PaletteStudio = () => {
                             onChange={(event) =>
                                 updateColor(event.target.value)
                             }
+                            aria-label={`${selected.name} のカラーピッカー`}
                             className="h-10 w-14 cursor-pointer rounded-lg border border-slate-200 bg-white p-1"
                         />
                         <Input
+                            id="palette-color-hex"
                             value={selected.value}
                             onChange={(event) =>
                                 updateColor(event.target.value)

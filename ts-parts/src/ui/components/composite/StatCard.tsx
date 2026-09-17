@@ -7,6 +7,7 @@ export interface StatCardProps {
     change?: string;
     tone?: "indigo" | "emerald" | "amber";
 }
+
 export const StatCard = ({
     label,
     value,

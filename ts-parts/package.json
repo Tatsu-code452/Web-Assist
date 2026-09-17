@@ -1,11 +1,26 @@
 {
     "name": "ts-parts",
-    "private": true,
+    "private": false,
     "version": "0.0.1",
     "type": "module",
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/index.mjs",
+            "require": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        },
+        "./style.css": "./dist/style.css"
+    },
+    "files": [
+        "dist"
+    ],
     "scripts": {
         "dev": "vite",
         "build": "tsc && vite build --config vite.config.ts",
+        "build:lib": "tsc && vite build --mode lib",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview",
         "test": "vitest",
@@ -26,14 +41,16 @@
         "@testing-library/jest-dom": "^6.4.6",
         "@testing-library/react": "^16.0.0",
         "@testing-library/user-event": "^14.0.0",
+        "@types/node": "^26.4.0",
         "@types/react": "^18.3.3",
         "@types/react-dom": "^18.3.0",
         "@vitejs/plugin-react": "^4.3.1",
         "@vitest/coverage-v8": "^1.6.1",
-        "tailwindcss": "^4.0.0",
         "jsdom": "^24.1.0",
+        "tailwindcss": "^4.0.0",
         "typescript": "^5.2.2",
         "vite": "^5.3.1",
+        "vite-plugin-dts": "^3.9.1",
         "vitest": "^1.6.0"
     }
 }

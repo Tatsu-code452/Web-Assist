@@ -1,12 +1,12 @@
-
 export type Tab =
     | "atoms"
     | "patterns"
     | "composites"
     | "layout"
     | "page-builder"
-    | "palette"
-export type VisualMode = "classic" | "studio";
+    | "palette";
+
+export type VisualMode = "classic" | "dark" | "studio";
 
 export const tabs: { id: Tab; label: string }[] = [
     { id: "atoms", label: "Atomic" },

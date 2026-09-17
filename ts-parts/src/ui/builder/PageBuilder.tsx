@@ -2,39 +2,13 @@ import { createElement, useState, type ReactNode } from "react";
 import { cn } from "../../lib/utils";
 import { Button, Input } from "../components";
 import { CopyButton, Section } from "../shared";
-type BuilderBlockType =
-    | "heading"
-    | "paragraph"
-    | "button"
-    | "card"
-    | "input"
-    | "select"
-    | "textarea"
-    | "checkbox"
-    | "badge"
-    | "alert"
-    | "image"
-    | "divider"
-    | "section"
-    | "list"
-    | "nav";
-type BuilderStyle = {
-    color: string;
-    backgroundColor: string;
-    padding: string;
-    margin: string;
-    fontSize: string;
-    width: string;
-    height: string;
-    borderRadius: string;
-};
-type BuilderNode = {
-    id: number;
-    type: BuilderBlockType | "div";
-    text: string;
-    style: BuilderStyle;
-    children: BuilderNode[];
-};
+import {
+    usePageBuilder,
+    type BuilderBlockType,
+    type BuilderNode,
+    type BuilderStyle,
+} from "./usePageBuilder";
+
 const builderPalette: { type: BuilderBlockType; label: string }[] = [
     { type: "heading", label: "Heading" },
     { type: "paragraph", label: "Paragraph" },
@@ -52,21 +26,13 @@ const builderPalette: { type: BuilderBlockType; label: string }[] = [
     { type: "list", label: "List" },
     { type: "nav", label: "Navigation" },
 ];
-const defaultStyle = (): BuilderStyle => ({
-    color: "#1e293b",
-    backgroundColor: "#ffffff",
-    padding: "12px",
-    margin: "0px",
-    fontSize: "16px",
-    width: "auto",
-    height: "auto",
-    borderRadius: "12px",
-});
+
 const nodeLabel = (node: BuilderNode) =>
     node.type === "div"
         ? "Container"
         : builderPalette.find((item) => item.type === node.type)?.label ||
           node.type;
+
 const typePresets: Record<BuilderNode["type"], string> = {
     div: "rounded-2xl border border-slate-200 bg-white p-6",
     heading: "text-2xl font-bold text-slate-900",
@@ -85,115 +51,38 @@ const typePresets: Record<BuilderNode["type"], string> = {
     list: "list-disc pl-5",
     nav: "flex gap-4 text-indigo-700",
 };
+
 export const PageBuilder = () => {
-    const makeNode = (
-        type: BuilderNode["type"],
-        text: string,
-    ): BuilderNode => ({
-        id: Date.now() + Math.random(),
-        type,
-        text,
-        style: defaultStyle(),
-        children: [],
-    });
-    const [tree, setTree] = useState<BuilderNode>(() => ({
-        id: 1,
-        type: "div",
-        text: "Page root",
-        style: defaultStyle(),
-        children: [{ ...makeNode("heading", "Page title"), id: 2 }],
-    }));
-    const [selectedId, setSelectedId] = useState(1);
-    const [draggedId, setDraggedId] = useState<number | null>(null);
+    const {
+        tree,
+        selectedId,
+        setSelectedId,
+        setDraggedId,
+        selected,
+        update,
+        updateStyle,
+        add,
+        remove,
+        drop,
+    } = usePageBuilder();
+
     const [outputMode, setOutputMode] = useState<"components" | "html">(
         "components",
     );
     const [source, setSource] = useState("");
-    const find = (node: BuilderNode, id: number): BuilderNode | undefined =>
-        node.id === id
-            ? node
-            : node.children.reduce<BuilderNode | undefined>(
-                  (found, child) => found || find(child, id),
-                  undefined,
-              );
-    const selected = find(tree, selectedId) || tree;
-    const update = (id: number, patch: Partial<BuilderNode>) => {
-        const walk = (node: BuilderNode): BuilderNode =>
-            node.id === id
-                ? { ...node, ...patch }
-                : { ...node, children: node.children.map(walk) };
-        setTree(walk(tree));
-    };
-    const add = (type: BuilderNode["type"]) => {
-        const parent = selected.type === "div" ? selected.id : 1;
-        const defaults: Record<BuilderNode["type"], string> = {
-            div: "New container",
-            heading: "New heading",
-            paragraph: "New paragraph",
-            button: "Action",
-            card: "Card content",
-            input: "Enter text",
-            select: "Choose an option",
-            textarea: "Enter details",
-            checkbox: "I agree",
-            badge: "New",
-            alert: "Important notice",
-            image: "Image placeholder",
-            divider: "",
-            section: "Section content",
-            list: "Item 1, Item 2",
-            nav: "Home, About, Settings",
-        };
-        const node = makeNode(type, defaults[type]);
-        const walk = (item: BuilderNode): BuilderNode =>
-            item.id === parent
-                ? { ...item, children: [...item.children, node] }
-                : { ...item, children: item.children.map(walk) };
-        setTree(walk(tree));
-        setSelectedId(node.id);
-    };
-    const remove = (id: number) => {
-        if (id === 1) return;
-        const walk = (node: BuilderNode): BuilderNode => ({
-            ...node,
-            children: node.children
-                .filter((child) => child.id !== id)
-                .map(walk),
-        });
-        setTree(walk(tree));
-        setSelectedId(1);
-    };
-    const drop = (target: number) => {
-        if (draggedId === null || draggedId === target) return;
-        const walk = (node: BuilderNode): BuilderNode => {
-            const from = node.children.findIndex(
-                (child) => child.id === draggedId,
-            );
-            const to = node.children.findIndex((child) => child.id === target);
-            if (from >= 0 && to >= 0) {
-                const children = [...node.children];
-                const [item] = children.splice(from, 1);
-                children.splice(to, 0, item);
-                return { ...node, children };
-            }
-            return { ...node, children: node.children.map(walk) };
-        };
-        setTree(walk(tree));
-        setDraggedId(null);
-    };
+
     const styleFields = (key: keyof BuilderStyle, label: string) => (
         <label className="block text-xs font-medium text-slate-600">
             {label}
             <Input
                 value={selected.style[key]}
                 onChange={(event) =>
-                    update(selected.id, {
-                        style: { ...selected.style, [key]: event.target.value },
-                    })
+                    updateStyle(selected.id, key, event.target.value)
                 }
             />
         </label>
     );
+
     const tagFor = (type: BuilderNode["type"]) =>
         type === "div"
             ? "div"
@@ -212,6 +101,7 @@ export const PageBuilder = () => {
                         : type === "list"
                           ? "ul"
                           : "div";
+
     const render = (node: BuilderNode): ReactNode => {
         const props = {
             style: { ...node.style } as React.CSSProperties,
@@ -233,6 +123,7 @@ export const PageBuilder = () => {
         if (node.type === "divider") return <hr {...props} />;
         return createElement(tagFor(node.type), props, node.text);
     };
+
     const jsx = (node: BuilderNode, depth = 0): string => {
         const pad = "  ".repeat(depth);
         const tag = tagFor(node.type);
@@ -254,20 +145,20 @@ export const PageBuilder = () => {
                 : node.text;
         return `${pad}<${tag}${attrs}>${content}</${tag}>`;
     };
+
     const generated = jsx(tree);
+
     const applySource = () => {
         const text = source.trim();
         if (!text) return;
         update(selected.id, { text });
     };
+
     return (
         <Section
             title="Web Page Builder"
-            description="Independent nested tree with preset classes and style
-                    overrides."
+            description="Independent nested tree with preset classes and style overrides."
         >
-            <h3 className="text-base font-bold"></h3>
-            <p className="mt-1 text-sm text-slate-500"></p>
             <div className="mt-4 grid gap-6 xl:grid-cols-[220px_minmax(0,1fr)_360px]">
                 <div className="space-y-2">
                     <Button
@@ -308,18 +199,16 @@ export const PageBuilder = () => {
                             }
                         />
                     )}
-                    {
-                        <div className="grid grid-cols-2 gap-3">
-                            {styleFields("color", "Text color")}
-                            {styleFields("backgroundColor", "Background")}
-                            {styleFields("padding", "Padding")}
-                            {styleFields("margin", "Margin")}
-                            {styleFields("fontSize", "Font size")}
-                            {styleFields("width", "Width")}
-                            {styleFields("height", "Height")}
-                            {styleFields("borderRadius", "Radius")}
-                        </div>
-                    }
+                    <div className="grid grid-cols-2 gap-3">
+                        {styleFields("color", "Text color")}
+                        {styleFields("backgroundColor", "Background")}
+                        {styleFields("padding", "Padding")}
+                        {styleFields("margin", "Margin")}
+                        {styleFields("fontSize", "Font size")}
+                        {styleFields("width", "Width")}
+                        {styleFields("height", "Height")}
+                        {styleFields("borderRadius", "Radius")}
+                    </div>
                     {selected.id !== 1 && (
                         <Button
                             variant="ghost"

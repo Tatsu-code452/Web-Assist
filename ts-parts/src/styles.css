@@ -6,16 +6,30 @@
 
 @layer base {
     :root {
-        color: #172033;
-        background: #f8fafc;
+        --bg-main: #f8fafc;
+        --text-main: #172033;
+        --border-main: #e2e8f0;
+        --card-bg: #ffffff;
+        color: var(--text-main);
+        background: var(--bg-main);
         font-family: var(--font-sans);
         font-synthesis: none;
         text-rendering: optimizeLegibility;
     }
 
+    .dark {
+        --bg-main: #0f172a;
+        --text-main: #f8fafc;
+        --border-main: #334155;
+        --card-bg: #1e293b;
+        color-scheme: dark;
+    }
+
     body {
         min-width: 320px;
         margin: 0;
+        background-color: var(--bg-main);
+        color: var(--text-main);
     }
 
     button,
@@ -26,7 +40,42 @@
     }
 }
 
-/* Alternative presentation for comparing the same components in a more expressive UI. */
+.dark .bg-white {
+    background-color: var(--card-bg) !important;
+}
+
+.dark .bg-slate-50 {
+    background-color: #0f172a !important;
+}
+
+.dark .bg-slate-100 {
+    background-color: #334155 !important;
+}
+
+.dark .border-slate-200 {
+    border-color: var(--border-main) !important;
+}
+
+.dark .text-slate-900,
+.dark .text-slate-800,
+.dark .text-slate-700 {
+    color: #f8fafc !important;
+}
+
+.dark .text-slate-600,
+.dark .text-slate-500 {
+    color: #94a3b8 !important;
+}
+
+.dark input,
+.dark select,
+.dark textarea {
+    border-color: var(--border-main);
+    background-color: #1e293b;
+    color: #f8fafc;
+}
+
+/* Studio Theme Override */
 .theme-studio {
     background:
         radial-gradient(circle at 8% 0%, rgba(99, 102, 241, 0.2), transparent 28rem),
