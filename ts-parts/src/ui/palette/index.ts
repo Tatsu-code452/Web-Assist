@@ -1,0 +1,1 @@
+export { PaletteStudio } from "./PaletteStudio";
