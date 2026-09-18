@@ -1,5 +1,5 @@
 import { cn } from "../../../../lib/utils";
-import { Button } from "../../../components";
+import { Button } from "../../../components/atomic";
 import { Node } from "../hooks/useNode";
 import { PageBuilderState } from "../hooks/usePageBuilderState";
 import { Tool } from "../hooks/useTool";

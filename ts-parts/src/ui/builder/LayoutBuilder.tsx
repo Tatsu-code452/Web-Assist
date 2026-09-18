@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { cn } from "../../lib/utils";
-import { Button, Checkbox, Label, Select } from "../components";
+import { Button, Checkbox, Label, Select } from "../components/atomic";
 import { Section } from "../shared";
 
 const gridColsMap: Record<string, string> = {

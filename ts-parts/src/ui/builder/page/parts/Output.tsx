@@ -1,4 +1,4 @@
-import { Button } from "../../../components";
+import { Button } from "../../../components/atomic";
 import { CopyButton } from "../../../shared";
 import { useOutput } from "../hooks/useOutput";
 import { PageBuilderState } from "../hooks/usePageBuilderState";

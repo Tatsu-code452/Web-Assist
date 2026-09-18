@@ -1,6 +1,6 @@
 import { ui } from "../../../lib/tokens";
 import { cn } from "../../../lib/utils";
-import { Input } from "../atomic/atomic";
+import { Input } from "../atomic";
 
 export const SearchField = ({
     value,

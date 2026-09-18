@@ -1,10 +1,5 @@
-import {
-    Badge,
-    Button,
-    Card,
-    Field,
-    Input
-} from "../components";
+import { Button, Input } from "../components/atomic";
+import { Badge, Card, Field } from "../components/composite";
 import { Section } from "../shared";
 
 export const PatternsSection = () => (

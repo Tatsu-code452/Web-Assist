@@ -1,5 +1,5 @@
 import { cn } from "../../../../lib/utils";
-import { Button, Input, Select } from "../../../components";
+import { Button, Input, Select } from "../../../components/atomic";
 import { Node } from "../hooks/useNode";
 import { PageBuilderState } from "../hooks/usePageBuilderState";
 import { useProperty } from "../hooks/useProperty";

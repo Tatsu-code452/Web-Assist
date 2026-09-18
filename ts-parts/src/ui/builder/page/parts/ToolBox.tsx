@@ -1,4 +1,4 @@
-import { Button } from "../../../components";
+import { Button } from "../../../components/atomic";
 import { Node } from "../hooks/useNode";
 import { builderPalette } from "../types";
 

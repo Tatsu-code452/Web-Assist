@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { cn } from "../../lib/utils";
-import { Card, Input, Label } from "../components";
+import { Input, Label } from "../components/atomic";
+import { Card } from "../components/composite";
 import { ColorPair, CopyButton } from "../shared";
 
 export const PaletteStudio = () => {

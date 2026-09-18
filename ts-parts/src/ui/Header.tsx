@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { ui } from "../lib/tokens";
 import { cn } from "../lib/utils";
-import { SearchField } from "./components";
+import { SearchField } from "./components/composite";
 import { Tab, VisualMode, tabs } from "./types";
 
 interface HeaderProps {

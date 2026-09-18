@@ -1,4 +1,4 @@
-import { Input, Select } from "../../../components";
+import { Input, Select } from "../../../components/atomic";
 import { Node } from "../hooks/useNode";
 
 export const PropsInspectorGUIRender = (node: Node) => {

@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from "react";
-import { Button, Card } from "./components";
+import { Button } from "./components/atomic";
+import { Card } from "./components/composite";
 
 export const CopyButton = ({ value }: { value: string }) => {
     const [copied, setCopied] = useState(false);

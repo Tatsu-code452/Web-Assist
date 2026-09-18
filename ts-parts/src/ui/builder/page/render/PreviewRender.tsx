@@ -1,13 +1,7 @@
 import { ReactNode } from "react";
 import { cn } from "../../../../lib/utils";
-import {
-    Alert,
-    Badge,
-    Button,
-    Card,
-    Input,
-    Textarea,
-} from "../../../components";
+import { Button, Input, Textarea } from "../../../components/atomic";
+import { Alert, Badge, Card } from "../../../components/composite";
 import { PageBuilderState } from "../hooks/usePageBuilderState";
 import { getLayoutClasses } from "../hooks/utils";
 import { BuilderNode, typePresets } from "../types";

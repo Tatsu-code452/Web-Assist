@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "../../../lib/utils";
-import { Label } from "../atomic/atomic";
+import { Label } from "../atomic";
 
 export const Field = ({
     label,

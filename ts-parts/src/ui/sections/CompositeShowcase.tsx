@@ -1,11 +1,10 @@
 import { useState } from "react";
+import { Button, Input } from "../components/atomic";
 import {
     Accordion,
     Avatar,
-    Button,
     Card,
     DropdownMenu,
-    Input,
     Modal,
     Popover,
     Skeleton,
@@ -14,7 +13,7 @@ import {
     Tabs,
     Toast,
     Tooltip,
-} from "../components";
+} from "../components/composite";
 import { Section } from "../shared";
 
 export const CompositeShowcase = () => {
